@@ -32,7 +32,7 @@ const userSchema = new Schema(
       required: true,
       minLength: 6,
       trim: true,
-      maxLength: 20,
+      maxLength: 60,
     },
     age: {
       type: Number,

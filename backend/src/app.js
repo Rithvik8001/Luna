@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const app = express();
+const bcrypt = require("bcrypt");
 const { connectDb } = require("./config/database");
 const { User } = require("./models/user");
 const { validateSignUpData } = require("./validations/signUpValidation");
@@ -13,24 +14,51 @@ app.post("/signup", async (req, res) => {
     if (!validationResult.valid) {
       return res.status(400).json({ error: validationResult.error });
     }
-
     const { firstName, lastName, emailId, password } = req.body;
+
+    // password encryption
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword);
 
     // check if user already exists
     const existingUser = await User.findOne({ emailId: emailId });
     if (existingUser) {
       return res.status(401).json("Email already registered.");
     }
+
     const user = new User({
       firstName: firstName,
       lastName: lastName,
       emailId: emailId,
-      password: password,
+      password: hashedPassword,
     });
     await user.save();
-    res.json("User is succesfully created");
+    res.status(200).json("User is succesfully created");
   } catch (err) {
-    res.json(err.message);
+    res.status(404).json(err.message);
+  }
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    const { emailId, password } = req.body;
+    const userEmail = await User.findOne({
+      emailId: emailId,
+    });
+    if (!userEmail) {
+      throw new Error("cannot find the email.");
+    }
+    const isPasswordValid = await bcrypt.compare(password, userEmail.password);
+    if (!isPasswordValid) {
+      throw new Error("Password is not valid");
+    }
+    res.status(200).json({
+      message: "Login Successful.",
+    });
+  } catch (err) {
+    res.status(404).json({
+      message: err.message,
+    });
   }
 });
 
