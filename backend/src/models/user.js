@@ -69,7 +69,7 @@ const userSchema = new Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 userSchema.methods.getJwt = function () {
@@ -81,7 +81,7 @@ userSchema.methods.getJwt = function () {
     process.env.JWT_PRIVATE_KEY,
     {
       expiresIn: "7d",
-    },
+    }
   );
   return token;
 };
@@ -91,7 +91,7 @@ userSchema.methods.validatePassword = async function (userPasswordInput) {
   const hashedPassword = user.password;
   const isPasswordValid = await bcrypt.compare(
     userPasswordInput,
-    hashedPassword,
+    hashedPassword
   );
   return isPasswordValid;
 };
