@@ -3,7 +3,6 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const { connectDb } = require("./config/database");
 const { User } = require("./models/user");
@@ -24,7 +23,6 @@ app.post("/signup", async (req, res) => {
 
     // password encryption
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword);
 
     // check if user already exists
     const existingUser = await User.findOne({ emailId: emailId });
@@ -53,17 +51,15 @@ app.post("/login", async (req, res) => {
     if (!user) {
       throw new Error("cannot find the email.");
     }
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await user.validatePassword(password);
+
     if (!isPasswordValid) {
       throw new Error("Password is not valid");
     }
-    const token = jwt.sign(
-      {
-        _id: user._id,
-      },
-      process.env.JWT_PRIVATE_KEY,
-    );
-    res.cookie("token", token);
+    const token = await user.getJwt();
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 8 * 3600000),
+    });
     res.status(200).json({
       message: "Login Successful.",
     });
