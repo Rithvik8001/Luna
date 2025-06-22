@@ -1,4 +1,5 @@
 // update password validation
+
 const updatePasswordValidation = (req) => {
   const { oldPassword, newPassword } = req.body;
 

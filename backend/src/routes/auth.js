@@ -3,21 +3,16 @@ const authRouter = express.Router();
 const { validateSignUpData } = require("../validations/signUpValidation");
 const { User } = require("../models/user");
 const bcrypt = require("bcrypt");
-const { userAuth } = require("../middlewares/auth");
 
 authRouter.post("/signup", async (req, res) => {
   try {
     const validationResult = validateSignUpData(req.body);
-
     if (!validationResult.valid) {
       return res.status(400).json({ error: validationResult.error });
     }
-
     const { firstName, lastName, emailId, password } = req.body;
-
     // password encryption
     const hashedPassword = await bcrypt.hash(password, 10);
-
     // check if user already exists
     const existingUser = await User.findOne({ emailId: emailId });
     if (existingUser) {
