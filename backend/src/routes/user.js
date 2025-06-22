@@ -40,11 +40,18 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
         { toUserId: loggedInUser._id, status: "accepted" },
         { fromUserId: loggedInUser._id, status: "accepted" },
       ],
-    }).populate("fromUserId", userPopulateFeilds);
+    })
+      .populate("fromUserId", userPopulateFeilds)
+      .populate("toUserId", userPopulateFeilds);
     if (findConnections.length === 0) {
       throw new Error("No connection requests found.");
     }
-    const data = findConnections.map((connection) => connection.fromUserId);
+    const data = findConnections.map((connection) => {
+      if (connection.fromUserId.toString() === loggedInUser._id.toString()) {
+        return connection.toUserId;
+      }
+      return connection.fromUserId;
+    });
     res.status(200).json({
       data: data,
     });
