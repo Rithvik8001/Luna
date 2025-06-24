@@ -11,6 +11,7 @@ const userPopulateFeilds = [
   "age",
   "about",
   "photoUrl",
+  "skills",
 ];
 userRouter.get("/user/requests/received", userAuth, async (req, res) => {
   try {
@@ -70,7 +71,7 @@ userRouter.get("/feed", userAuth, async (req, res) => {
     // request pagination
     const page = req.query.page || 1;
     // limit is the number of users to fetch
-    const limit = req.query.limit || 10;
+    let limit = req.query.limit || 10;
     limit = limit > 50 ? 50 : limit;
 
     // skip is the number of users to skip
