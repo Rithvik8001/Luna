@@ -6,6 +6,8 @@ import Feed from "./pages/Feed";
 import { Provider } from "react-redux";
 import store from "./utils/store";
 import ProfilePage from "./pages/Profile";
+import ConnectionsPage from "./pages/Connections";
+import RequestsPage from "./pages/Requests";
 
 export default function App() {
   return (
@@ -19,6 +21,8 @@ export default function App() {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/feed" element={<Feed />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/connections" element={<ConnectionsPage />} />
+              <Route path="/requests" element={<RequestsPage />} />
             </Routes>
           </Router>
         </div>

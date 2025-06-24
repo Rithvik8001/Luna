@@ -65,10 +65,16 @@ const Navbar = () => {
                       Profile
                     </Link>
                     <Link
-                      to="/settings"
+                      to="/connections"
                       className="text-md text-gray-500 text-center hover:bg-gray-100 rounded-md"
                     >
-                      Settings
+                      Connections
+                    </Link>
+                    <Link
+                      to="/requests"
+                      className="text-md text-gray-500 text-center hover:bg-gray-100 rounded-md"
+                    >
+                      Requests
                     </Link>
                     <Link
                       onClick={handleLogout}
