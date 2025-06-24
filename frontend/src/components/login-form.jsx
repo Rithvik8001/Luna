@@ -5,6 +5,9 @@ import axios from "axios";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
+import { API_URL } from "../constants/url";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,6 +15,8 @@ const LoginForm = () => {
   const [password, setPassword] = useState("rithvik@123");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -22,7 +27,7 @@ const LoginForm = () => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:3000/login",
+        `${API_URL}/login`,
         {
           emailId,
           password,
@@ -31,7 +36,7 @@ const LoginForm = () => {
           withCredentials: true,
         }
       );
-
+      dispatch(addUser(response.data.data));
       toast.success("Login successful", {
         description: "Redirecting to dashboard...",
       });

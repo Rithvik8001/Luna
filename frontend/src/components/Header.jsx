@@ -4,7 +4,7 @@ const Header = () => {
   const navigate = useNavigate();
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-white relative rounded-2xl mt-2">
+      <div className="h-[84vh] flex items-center justify-center bg-white relative rounded-2xl mt-2">
         {/* 30x30 Grid Background */}
         <div className="absolute inset-0 grid grid-cols-30 grid-rows-30 opacity-14">
           {Array.from({ length: 900 }, (_, i) => (
