@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { API_URL } from "../constants/url";
+import { BASE_API_URL } from "../constants/url";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +27,7 @@ const LoginForm = () => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        `${API_URL}/login`,
+        `${BASE_API_URL}/login`,
         {
           emailId,
           password,
@@ -41,16 +41,15 @@ const LoginForm = () => {
         description: "Redirecting to dashboard...",
       });
       await new Promise((resolve) => setTimeout(resolve, 1000));
+      navigate("/feed");
     } catch (error) {
       setError(error.response.data.message);
       toast.error(error.response.data.message);
-
       await new Promise((resolve) => setTimeout(resolve, 1000));
     } finally {
       setEmailId("");
       setPassword("");
       setIsLoading(false);
-      navigate("/feed");
     }
   };
 
