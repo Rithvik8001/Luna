@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="min-h-screen flex items-center justify-center bg-white relative rounded-2xl mt-2">
@@ -20,11 +23,17 @@ const Header = () => {
           </p>
 
           <div className="flex gap-4 justify-center">
-            <button className="px-8 py-4 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200 shadow-lg">
-              Get Started
+            <button
+              onClick={() => navigate("/signup")}
+              className="px-8 py-4 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200 shadow-lg cursor-pointer"
+            >
+              Sign Up
             </button>
-            <button className="px-8 py-4 bg-white text-gray-900 border-2 border-gray-900 rounded-lg font-medium hover:bg-gray-50 transition-colors duration-200">
-              Learn More
+            <button
+              onClick={() => navigate("/login")}
+              className="px-8 py-4 bg-white text-gray-900 border-2 border-gray-900 rounded-lg font-medium hover:bg-gray-50 transition-colors duration-200 cursor-pointer"
+            >
+              Login
             </button>
           </div>
         </div>

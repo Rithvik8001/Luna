@@ -7,7 +7,7 @@ const Navbar = () => {
       <div className="h-16">
         <div className="mx-auto max-w-6xl flex items-center justify-between h-full">
           <div className="flex items-center">
-            <Icon size={32} color="skyblue" />
+            <Icon size={32} />
           </div>
 
           <div className="flex items-center gap-2">
